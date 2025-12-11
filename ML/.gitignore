@@ -1,0 +1,50 @@
+# --- Python virtual environment ---
+venv/
+.venv/
+
+# --- Python cache ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# --- Jupyter Notebook checkpoints ---
+training_notebooks/.ipynb_checkpoints/
+*.ipynb_checkpoints/
+
+# --- Model files ---
+models/*.pkl
+models/*.joblib
+
+# --- Dataset files (never upload real APKs!) ---
+dataset/benign/
+dataset/malware/
+dataset/*.apk
+dataset/*.csv
+dataset/*.pkl
+
+# Keep only permission_columns.pkl if you want
+# Otherwise ignore all .pkl in dataset:
+# dataset/*.pkl
+
+# --- Logs, artifacts, temp files ---
+*.log
+*.tmp
+*.temp
+
+# --- OS/System files ---
+.DS_Store
+Thumbs.db
+
+# --- IDE settings ---
+.vscode/
+.idea/
+
+# --- Python packaging ---
+build/
+dist/
+*.egg-info/
+
+# --- Environment / config ---
+.env
+.env.*
