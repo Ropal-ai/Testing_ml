@@ -3,7 +3,9 @@ import os
 
 # adjust these paths if your model files are in different locations
 MODEL_PATH = os.path.join("backend", "ml", "models", "apk_classifier.pkl")
-VECT_PATH = os.path.join("backend", "ml", "preprocessing", "vectorizer.pkl")
+VECT_PATH = os.path.join("backend", "ml", "preprocessing", "permission_columns.pkl")
+
+# VECT_PATH = os.path.join("backend", "ml", "preprocessing", "vectorizer.pkl")
 
 # load once on import
 _model = None

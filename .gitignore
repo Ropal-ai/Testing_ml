@@ -25,10 +25,10 @@ backend/app/services/__pycache__/
 
 
 # ------------ ML Models & Vectorizers --------------
-ml/models/*.pkl
-ml/preprocessing/*.pkl
-backend/ml/models/*.pkl
-backend/ml/preprocessing/*.pkl
+# ml/models/*.pkl
+# ml/preprocessing/*.pkl
+# backend/ml/models/*.pkl
+# backend/ml/preprocessing/*.pkl
 
 
 # ------------ APK Dataset (Never Push APKs!!) --------------

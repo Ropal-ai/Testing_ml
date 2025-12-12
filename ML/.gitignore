@@ -13,15 +13,15 @@ training_notebooks/.ipynb_checkpoints/
 *.ipynb_checkpoints/
 
 # --- Model files ---
-models/*.pkl
-models/*.joblib
+# models/*.pkl
+# models/*.joblib
 
 # --- Dataset files (never upload real APKs!) ---
 dataset/benign/
 dataset/malware/
 dataset/*.apk
 dataset/*.csv
-dataset/*.pkl
+# dataset/*.pkl
 
 # Keep only permission_columns.pkl if you want
 # Otherwise ignore all .pkl in dataset:
