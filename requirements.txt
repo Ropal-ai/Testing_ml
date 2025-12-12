@@ -1,0 +1,4 @@
+streamlit
+requests
+pandas
+# add any other libraries used in frontend.py
