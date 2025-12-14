@@ -1,10 +1,26 @@
+import logging
+import sys
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-import os
+
+# Configure the root logger
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+    handlers=[logging.StreamHandler(sys.stdout)]
+)
+
+# 🔇 SILENCE NOISY LIBRARIES
+# This specific line stops the huge flood of androguard DEBUG logs
+logging.getLogger("androguard").setLevel(logging.WARNING)
+logging.getLogger("multipart").setLevel(logging.WARNING)
+logging.getLogger("urllib3").setLevel(logging.WARNING)
+
+# Create a logger for this file
+logger = logging.getLogger(__name__)
 
 load_dotenv()
-
 
 from app.routers import upload, analyze, explain
 
@@ -14,7 +30,6 @@ app = FastAPI(
     version="1.0"
 )
 
-# CORS (allow all during hackathon; lock down in production)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -28,6 +43,11 @@ app.include_router(upload.router, prefix="/upload", tags=["Upload"])
 app.include_router(analyze.router, prefix="/analyze", tags=["Analyze"])
 app.include_router(explain.router, prefix="/explain", tags=["Explain"])
 
+@app.on_event("startup")
+async def startup_event():
+    logger.info("🚀 CyberGuardian Backend Started Successfully")
+
 @app.get("/")
 def root():
+    logger.info("Health check endpoint called")
     return {"status": "ok", "service": "CyberGuardian APK Analyzer"}

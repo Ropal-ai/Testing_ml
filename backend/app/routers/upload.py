@@ -7,7 +7,7 @@ UPLOAD_DIR = "uploaded_apks"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 @router.post("/")
-async def upload_apk(file: UploadFile = File(...)):
+def upload_apk(file: UploadFile = File(...)):
     # basic validation
     if not file.filename.lower().endswith(".apk"):
         raise HTTPException(status_code=400, detail="Only .apk files are accepted")
@@ -19,6 +19,7 @@ async def upload_apk(file: UploadFile = File(...)):
         with open(file_path, "wb") as out:
             shutil.copyfileobj(file.file, out)
     finally:
-        await file.close()
+        file.file.close()
+        # await file.close()
 
     return {"status": "ok", "file_path": file_path, "filename": file.filename}

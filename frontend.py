@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 
 # --- CONFIGURATION ---
-BACKEND_URL = "https://cyber-guardian-backend.onrender.com"  # Ensure this matches your FastAPI address http://127.0.0.1:8000
+BACKEND_URL = "https://cyber-guardian-backend.onrender.com"  # Ensure this matches your FastAPI address http://127.0.0.1:8000 
 
 st.set_page_config(
     page_title="CyberGuardian APK Scanner",
