@@ -1,8 +1,10 @@
 import streamlit as st
 import requests
+from gtts import gTTS
+import io
 
 # --- CONFIGURATION ---
-BACKEND_URL = "https://cyber-guardian-backend.onrender.com"  # Ensure this matches your FastAPI address http://127.0.0.1:8000 
+BACKEND_URL = "http://127.0.0.1:8000"  # Ensure this matches your FastAPI address  https://cyber-guardian-backend.onrender.com
 
 st.set_page_config(
     page_title="CyberGuardian APK Scanner",
@@ -108,20 +110,49 @@ if uploaded_file is not None:
 
         with row1_2:
             st.write("### 🤖 AI Explanation")
+
+            lang_map = {
+                "English": "en",
+                "Hindi (हिंदी)": "hi",
+                "Marathi (मराठी)": "mr",
+                "Gujarati (ગુજરાતી)": "gu",
+                "Tamil (தமிழ்)": "ta"
+            }
+            selected_lang = st.selectbox("Select Language", options=list(lang_map.keys()))
             # Ask backend to explain specific permissions
             all_perms = report.get("permissions", [])
             if st.button("Explain Risks (AI)"):
-                with st.spinner("Asking AI..."):
+                with st.spinner(f"Generating explanation in {selected_lang}..."):
                     try:
                         expl_resp = requests.post(
                             f"{BACKEND_URL}/explain/",
-                            json={"permissions": [d['permission'] for d in dang_perms] if dang_perms else all_perms[:5]}
+                            json={
+                                "permissions": [d['permission'] for d in dang_perms] if dang_perms else all_perms[:5],
+                                "language": selected_lang
+                            }
                         )
                         if expl_resp.status_code == 200:
                             explanation = expl_resp.json().get("explanation", "No info.")
+                            st.session_state["last_explanation"] = explanation
+                            st.session_state["last_lang_code"] = lang_map[selected_lang]
                             st.info(explanation)
+                        else:
+                            st.error("Failed to fetch explanation.")
                     except:
                         st.warning("Could not fetch explanation.")
+
+            if "last_explanation" in st.session_state:
+              st.divider()
+              st.write("🔊 **Listen to Explanation**")
+              if st.button("Generate Audio"):
+                  try:
+                      with st.spinner("Converting text to speech..."):
+                         tts = gTTS(text=st.session_state["last_explanation"], lang=st.session_state  ["last_lang_code"])
+                         audio_fp = io.BytesIO()
+                         tts.write_to_fp(audio_fp)
+                         st.audio(audio_fp, format="audio/mp3")
+                  except Exception as e:
+                      st.error(f"Audio Error: {e}")
 
         # Raw Data Expander
         with st.expander("📂 View Full JSON Report"):

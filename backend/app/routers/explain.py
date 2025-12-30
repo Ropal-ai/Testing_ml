@@ -18,9 +18,9 @@ except Exception:
 
 router = APIRouter()
 
-# FIX 1: Use strictly typed List[str] to validate input
 class ExplainRequest(BaseModel):
     permissions: List[Union[str, list]] # Allow flexible input, clean it later
+    language: str = "English"
 
 def rules_explain(permissions):
     explanations = []
@@ -67,7 +67,7 @@ def explain(req: ExplainRequest):
             client = OpenAI(api_key=api_key)
             
             prompt = (
-                "You are a cybersecurity expert. Explain in simple language "
+                f"You are a cybersecurity expert. Explain in simple {req.language} language "
                 "the risks of the following Android permissions and give a final advice.\n\n"
                 f"Permissions:\n{clean_perms}\n\nFormat:\n1) Summary\n2) Risks\n3) Recommendation"
             )
