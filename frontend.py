@@ -4,7 +4,7 @@ import io
 from gtts import gTTS
 
 # --- CONFIGURATION ---
-BACKEND_URL = "http://localhost:8000"  # Ensure your FastAPI backend is running
+BACKEND_URL = "https://cyber-guardian-backend.onrender.com"  # Ensure your FastAPI backend is running
 st.set_page_config(page_title="CyberGuardian APK Analyser", layout="wide", page_icon="🛡️")
 
 # --- CUSTOM STYLING ---
