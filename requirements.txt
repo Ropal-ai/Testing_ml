@@ -1,5 +1,5 @@
+google-generativeai
+gTTS
+fastapi
 streamlit
 requests
-pandas
-gTTS
-# add any other libraries used in frontend.py
