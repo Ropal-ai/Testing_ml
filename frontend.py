@@ -30,7 +30,7 @@ with st.sidebar:
 if uploaded_file:
     # 1. SCANNING PROCESS
     with st.spinner("Analyzing APK permissions..."):
-        files = {"file": (uploaded_file.name, uploaded_file.getvalue())}
+        files = {"file": (uploaded_file.name, uploaded_file.getvalue(),"application/vnd.android.package-archive")}
         try:
             response = requests.post(f"{BACKEND_URL}/analyze/", files=files)
             if response.status_code == 200:
