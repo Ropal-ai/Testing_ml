@@ -14,7 +14,7 @@ st.markdown("""
     .stButton>button { width: 100%; border-radius: 10px; height: 3em; background-color: #007bff; color: white; }
     .stAlert { border-radius: 10px; }
     </style>
-    """, unsafe_allow_name_to_html=True)
+    """, unsafe_allow_html=True)
 
 # --- APP HEADER ---
 st.title("🛡️ CyberGuardian: APK Risk Analyser")
