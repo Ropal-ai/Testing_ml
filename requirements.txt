@@ -1,4 +1,4 @@
-google-generativeai
+google-genai
 gTTS
 fastapi
 streamlit

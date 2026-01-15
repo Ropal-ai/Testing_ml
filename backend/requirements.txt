@@ -1,11 +1,11 @@
-fastapi==0.95.2
+fastapi==0.103.0
 uvicorn==0.23.2
 androguard
 scikit-learn
 joblib==1.3.2
 pandas
-python-multipart==0.0.6
+python-multipart
 python-dotenv==1.0.0
-openai>=1.10.0
-tqdm==4.65.0
+openai
 google-genai
+tqdm
