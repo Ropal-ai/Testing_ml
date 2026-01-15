@@ -19,6 +19,9 @@ def explain_with_gemini(req: ExplainRequest):
 
     client = genai.Client(api_key=api_key)
 
+    for model in client.models.list():
+            print(f"Model: {model.name}")
+
     # Simple list of permissions for the prompt
     clean_perms = ", ".join([str(p) for p in req.permissions])
 
@@ -31,7 +34,7 @@ def explain_with_gemini(req: ExplainRequest):
     )
 
     try:
-        response = client.models.generate_content(model="gemini-1.5-flash", contents=prompt)
+        response = client.models.generate_content(model="gemini-3-flash-preview", contents=prompt)
         return {"explanation": response.text, "source": "gemini-new-sdk"}
     except Exception as e:
         return {"explanation": f"Error: {str(e)}", "source": "error"}
