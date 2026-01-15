@@ -18,7 +18,7 @@ def explain_with_gemini(req: ExplainRequest):
         return {"explanation": "API Key not found.", "source": "error"}
 
     genai.configure(api_key=api_key)
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel('gemini-1.5-pro')
 
     # Simple list of permissions for the prompt
     clean_perms = ", ".join([str(p) for p in req.permissions])
