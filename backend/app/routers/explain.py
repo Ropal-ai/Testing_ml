@@ -1,5 +1,5 @@
 import os
-import google.generativeai as genai
+from google import genai
 from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import List, Union
@@ -17,8 +17,7 @@ def explain_with_gemini(req: ExplainRequest):
     if not api_key:
         return {"explanation": "API Key not found.", "source": "error"}
 
-    genai.configure(api_key=api_key)
-    model = genai.GenerativeModel('gemini-1.5-pro')
+    client = genai.Client(api_key=api_key)
 
     # Simple list of permissions for the prompt
     clean_perms = ", ".join([str(p) for p in req.permissions])
@@ -32,7 +31,7 @@ def explain_with_gemini(req: ExplainRequest):
     )
 
     try:
-        response = model.generate_content(prompt)
-        return {"explanation": response.text, "source": "gemini"}
+        response = client.models.generate_content(model="gemini-2.0-flash", contents=prompt)
+        return {"explanation": response.text, "source": "gemini-new-sdk"}
     except Exception as e:
         return {"explanation": f"Error: {str(e)}", "source": "error"}
