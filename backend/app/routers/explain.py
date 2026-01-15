@@ -31,7 +31,8 @@ def explain_with_gemini(req: ExplainRequest):
     )
 
     try:
-        response = client.models.generate_content(model="gemini-2.0-flash", contents=prompt)
+        response = client.models.generate_content(model="gemini-1.5-flash", contents=prompt)
         return {"explanation": response.text, "source": "gemini-new-sdk"}
     except Exception as e:
         return {"explanation": f"Error: {str(e)}", "source": "error"}
+        
