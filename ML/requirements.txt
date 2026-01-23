@@ -1,8 +1,1 @@
-pandas
-numpy
-scikit-learn
-tqdm
-androguard
-matplotlib
-seaborn
-joblib
+

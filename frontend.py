@@ -1,3 +1,4 @@
+import time
 import streamlit as st
 import requests
 import io
@@ -9,12 +10,32 @@ st.set_page_config(page_title="CyberGuardian APK Analyser", layout="wide", page_
 
 # --- WAKE-UP CALL ---
 if "backend_awake" not in st.session_state:
-    with st.spinner("Waking up the security engine... (This may take up to 50s on first load)"):
+    # Create a placeholder to update status messages dynamically
+    status_msg = st.empty()
+    status_msg.info("⏳ Waking up the security engine... (Render Free Tier may take ~1-2 mins)")
+
+    backend_up = False
+    # Try for up to 90 seconds (18 attempts * 5 seconds wait)
+    for i in range(18):
         try:
-            requests.get(f"{BACKEND_URL}/", timeout=60)
-            st.session_state["backend_awake"] = True
+            # Short timeout per attempt to keep the loop moving
+            response = requests.get(f"{BACKEND_URL}/", timeout=5)
+            if response.status_code == 200:
+                backend_up = True
+                break
         except requests.exceptions.RequestException:
-            st.warning("Backend is taking longer than expected to wake up. You may need to refresh.")
+            # Backend is still sleeping or booting; wait and retry
+            time.sleep(5)
+            continue
+
+    if backend_up:
+        st.session_state["backend_awake"] = True
+        status_msg.success("✅ Security Engine Ready!")
+        time.sleep(1) # Let the user see the success message
+        status_msg.empty() # Remove the message
+    else:
+        status_msg.error("⚠️ Backend is taking too long.")
+        st.markdown(f"**[Click here to wake it up manually]({BACKEND_URL})**", unsafe_allow_html=True)
 
 # --- CUSTOM STYLING ---
 st.markdown("""
