@@ -4,8 +4,17 @@ import io
 from gtts import gTTS
 
 # --- CONFIGURATION ---
-BACKEND_URL = "https://cyber-guardian-backend.onrender.com"  # Ensure your FastAPI backend is running
+BACKEND_URL = "https://cyber-guardian-backend.onrender.com"
 st.set_page_config(page_title="CyberGuardian APK Analyser", layout="wide", page_icon="🛡️")
+
+# --- WAKE-UP CALL ---
+if "backend_awake" not in st.session_state:
+    with st.spinner("Waking up the security engine... (This may take up to 50s on first load)"):
+        try:
+            requests.get(f"{BACKEND_URL}/", timeout=60)
+            st.session_state["backend_awake"] = True
+        except requests.exceptions.RequestException:
+            st.warning("Backend is taking longer than expected to wake up. You may need to refresh.")
 
 # --- CUSTOM STYLING ---
 st.markdown("""
